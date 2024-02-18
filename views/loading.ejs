@@ -1,0 +1,30 @@
+<%- include('includes/appHedder.ejs'); %>
+
+</head>
+<body class="theme-green" onload="loadme();">
+
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"><img src="/assets/images/logo.svg" width="48" height="48" alt="Magic Copy"></div>
+        <p>Please wait...</p>        
+    </div>
+</div>
+
+<div hidden>
+    <form action="/dashboard" method="POST">
+        <input type="text" name="DeviceIDx" value="<%= details.user.device_id %>">
+        <input type="submit" id="loaded">
+    </form>
+</div>
+
+<script>
+    function loadme(){
+        setCookie('access','<%= details.user.device_id %>','1');
+        setCookie('customer','<%= details.user.stripe_user_id %>','1');
+        document.getElementById('loaded').click();
+      //  window.location.replace("/dashboard");
+    }
+
+</script>
+
+<%- include('includes/appFooter.ejs'); %>

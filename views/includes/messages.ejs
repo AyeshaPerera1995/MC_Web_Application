@@ -1,0 +1,28 @@
+<% if(error!=''){ %>
+    <script>
+        showNotification('alert-danger', '<%= error %> ', 'top', 'right', 'Enter','Exit');
+    </script>
+<% } %>
+
+<% if(success_msg!=''){ %>
+    <script>
+        showNotification('alert-success', '<%= success_msg %> ', 'top', 'right', 'Enter','Exit');
+    </script>
+<% } %>
+
+<% if(error_msg!=''){ %>
+    <script>
+        showNotification('alert-danger', '<%= error_msg %>'+'   ', 'top', 'right', 'Enter','Exit');
+    </script>
+<% } %>
+
+
+    <!-- <% if(error!=''){ %>
+        <script>
+            console.log('<%= error %>');
+            showNotification('alert-danger', '<%= error %> ', 'top', 'right', 'Enter','Exit');</script>
+    <% } else{ %>
+        <script>           
+            showNotification('bg-blue', 'Account Created Successfully ', 'top', 'right', 'Enter','Exit');        
+            showNotification('bg-light-green', 'Verification email sent ', 'top', 'right', 'Enter','Exit');</script>
+        <% } %> -->

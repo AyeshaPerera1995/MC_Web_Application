@@ -1,0 +1,329 @@
+<%- include('includes/header.ejs'); %>
+<%- include('includes/nav.ejs'); %>
+
+
+<!-- Main Content -->
+
+
+
+<section class="content home" style="z-index: 3;">
+    <input id="deviceidx" name="DeviceIDx" value="DeviceIDx" hidden>
+    <div class="container-fluid">
+
+    <div id="HeadderPanel">
+        <div class="block-header" >
+        <div class="row clearfix">
+            <div class="col-lg-5 col-md-5 col-sm-12">
+                <h2>Dashboard</h2>
+                <ul class="breadcrumb padding-0">
+                    <li class="breadcrumb-item"><a href="index.html"><i class="zmdi zmdi-home"></i></a></li>
+                    <li class="breadcrumb-item active">Dashboard</li>
+                </ul>
+            </div>            
+            <!-- <div class="col-lg-7 col-md-7 col-sm-12">
+                <div class="input-group m-b-0">                
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-addon">
+                        <i class="zmdi zmdi-search"></i>
+                    </span>
+                </div>
+            </div> -->
+        </div>
+    </div>
+
+    </div>    
+        
+<!-- Clip Usage Section Begin-->    
+    <div id="ClipUsagedetails">
+        <div class="row clearfix" >
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6 class="m-t-0">Windows</h6>
+                                <small class="text-small"><%=details.clipCountDetails.windowsClips%> Clips</small>
+                            </div>
+                            <div class="col-6 text-right">
+                                <% if(details.clipCountDetails.windowsClips_percentage != 'NaN'){ %>
+                                    <h3 class="m-b-0"><%=(details.clipCountDetails.windowsClips_percentage).toFixed(0)%>%</h3><br>
+                                <% }else{ %>
+                                <h3 class="m-b-0">0%</h3><br>
+                                <% } %>
+                             <!--   <small class="info">of 1Tb</small> -->
+                            </div>
+                            <div class="col-12">
+                                <div class="progress m-t-20" value="12">
+                                <% var pro = details.clipCountDetails.windowsClips_percentage; %>
+                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" style="width: <%=pro%>%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6 class="m-t-0">Android</h6>
+                                <small class="text-small"><%=details.clipCountDetails.androidClips%> Clips</small>
+                            </div>
+                            <div class="col-6 text-right">
+                                <% if(details.clipCountDetails.android_percentage != 'NaN'){ %>
+                                    <h3 class="m-b-0"><%=(details.clipCountDetails.android_percentage).toFixed(0)%>%</h3><br>
+                                <% }else{ %>
+                                <h3 class="m-b-0">0%</h3><br>
+                                <% } %>
+                                <!--   <small class="info">of 1Tb</small> -->
+                            </div>
+                            <div class="col-12">
+                                <div class="progress m-t-20" value="20" type="success">
+                                    <% var pro = details.clipCountDetails.android_percentage; %>
+                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: <%=pro%>%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6 class="m-t-0">Mac</h6>
+                                <small class="text-small"><%=details.clipCountDetails.macClips%> Clips</small>
+                            </div>
+                            <div class="col-6 text-right">
+                                <%  if(details.clipCountDetails.macClips_percentage != 'NaN'){ %>
+                                    <h3 class="m-b-0"><%=(details.clipCountDetails.macClips_percentage).toFixed(0)%>%</h3><br>
+                                <% }else{ %>
+                                <h3 class="m-b-0">0%</h3><br>
+                                <% } %>
+                                 <!--   <small class="info">of 1Tb</small> -->
+                            </div>
+                            <div class="col-12">
+                                <div class="progress m-t-20" value="39">
+                                    <% var pro = details.clipCountDetails.macClips_percentage; %>
+                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="39" aria-valuemin="0" aria-valuemax="100" style="width: <%=pro%>%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-6">
+                                <h6 class="m-t-0">IOS</h6>
+                                <small class="text-small"><%=details.clipCountDetails.iosClips%> Clips</small>
+                            </div>
+                            <div class="col-6 text-right">
+                                <% if(details.clipCountDetails.iosClips_percentage != 'NaN'){ %>
+                                    <h3 class="m-b-0"><%=(details.clipCountDetails.iosClips_percentage).toFixed(0)%>%</h3><br>
+                                <% }else{ %>
+                                <h3 class="m-b-0">0%</h3><br>
+                                <% } %>
+                                <!--   <small class="info">of 1Tb</small> -->
+                            </div>
+                            <div class="col-12">
+                                <div class="progress m-t-20" value="89" type="success">
+                                    <% var pro = details.clipCountDetails.iosClips_percentage; %>
+                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100" style="width: <%=pro%>%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>     
+        
+<!-- Clip Usage Section End--> 
+
+<!-- Device Usage Section Begin-->
+        <div class="row clearfix" id="DeviceUsage">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">     
+                    <div class="header">
+                        <h2><strong>Device</strong> Usage</h2>                        
+                    </div>               
+                                     
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-filter table-hover m-b-0">    
+                                <thead>
+                                    <tr>
+                                        <th> </th>
+                                        <th> Platform</th>
+                                        <th> </th>
+                                        <th> Device Name</th>
+                                        <!-- <th> id</th> -->
+                                        <th> Usage</th>
+                                        <th> Status</th>
+                                    </tr>
+                                </thead>                            
+                                <tbody>
+                                   <% 
+                                        var i = 1;
+                                        details.devicelist.forEach(function(device){
+                                            if(device.deviceId != cookie_id){
+
+                                        var device_name = device.deviceId.split('~');
+                                        var icon = '';
+                                        if(device.os == 'WINDOWS'){ icon = 'windows.png';
+                                        }else if(device.os == 'ANDROID'){ icon = 'android.png';
+                                        }else if(device.os == 'IOS'){ icon = 'ios.png';
+                                        }else if(device.os == 'MAC'){ icon = 'mac.png'; 
+                                        }else if(device.os == 'WEB'){ icon = 'web.png';}
+                                    %>
+
+                                    <tr data-status="approved">
+                                        <td><%=i%></td>
+                                        <td><div class="media-object"><img src="../assets/images/xs/<%=icon%>" alt="" width="35px" class="rounded-circle"></div></td>
+                                        <td><%=device.os%></td>
+                                        <td><%=device_name[1]%></td>
+                                        <!-- <td><%=device.deviceId%></td> -->
+                                        <td width="250px">
+                                            <div class="progress">
+                                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="87" aria-valuemin="0" aria-valuemax="100" style="width: 87%;"></div>
+                                            </div>
+                                        </td>
+                                        <% if(device.status == 'Active'){ %>
+                                        <td><span class="badge badge-success"><%=device.status%></span></td>
+                                        <% }else{ %>
+                                        <td><span class="badge badge-warning"><%=device.status%></span></td>
+                                        <% } %>
+                                    </tr>
+
+                                   <% 
+                                        i++;
+                                            }
+                                       
+                                        }); 
+                                    %> 
+                                   
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- Device Usage Section End-->  
+
+<!-- Plan Details Section Begin-->
+        <div class="row clearfix" id="planDetails">
+            <div class="col-lg-12 col-md-12">
+                <div class="card visitors-map">                    
+                    <section class="section bg-light" id="pricing">
+                   
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-12 text-center mb-4">
+                                    <h4 class="fw-semibold mb-3">Magic Copy Premium Plans</h4>
+                                    <h5 class="text-muted fw-normal">Enjoy more features and benefits with the premium plans</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-6 mt-4 pt-2">
+                                    <div class="bg-white border px-4 py-5 text-center rounded">
+                                        <h6 class="text-uppercase pri-text position-relative" style="text-transform: uppercase!important;color: black;">Free</h6>
+                                        <h1 class="mt-4 pt-4 display-5" style="color: #263b5e;"><sup class="fs-3">$</sup>0.00</h1>
+                                        <h6 class="text-uppercase text-muted">Per Month</h6>
+                                        <div class="mt-4">
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Clip History : 10 Clips</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Device Count : 2</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Smart Scaner : No</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Web Access : No</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Ads : Yes</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Analytics : No</p>
+                                        </div>
+                                    <br><br><br>
+
+                                    </div>
+                                </div>
+                               
+                                    <div class="col-lg-4 col-md-6 mt-4 pt-2">
+                                        <div class="bg-dark border px-4 py-5 text-center rounded">
+                                            <h6 class="text-uppercase text-white pri-text position-relative" >Basic</h6>
+                                            <h1 class="mt-4 pt-4 text-white display-5" style="color: #263b5e;"><sup class="fs-3">$</sup>2.99</h1>
+                                            <h6 class="text-uppercase text-muted">Per Month</h6>
+                                            <div class="mt-4 text-muted">
+                                                <p class="py-2 packageFreturesDark"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Clip History : 50 Clips</p>
+                                                <p class="py-2 packageFreturesDark"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Device Count : 3</p>
+                                                <p class="py-2 packageFreturesDark"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Smater Scaner : Yes</p>
+                                                <p class="py-2 packageFreturesDark"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Web Access : Yes</p>
+                                                <p class="py-2 packageFreturesDark"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Ads : No</p>
+                                                <p class="py-2 packageFreturesDark"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Analytics : Yes</p>
+                                            </div>
+                                            <form action="/subscribe/create-checkout-session" method="POST"> 
+                                                <input type="hidden" name="customer_id" value="<%=details.user.stripe_user_id%>" />
+                                                <input type="hidden" name="price_id" value="<%=basic_key%>"/>                                             
+                                                <button type="submit" class="btn btn-primary mt-4" id="basic_btn">Get Started</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                
+                                <div class="col-lg-4 col-md-6 mt-4 pt-2">
+                                    <div class="bg-white border px-4 py-5 text-center rounded">
+                                        <h6 class="text-uppercase pri-text position-relative" style="text-transform: uppercase!important;color: black;">Premium</h6>
+                                        <h1 class="mt-4 pt-4 display-5" style="color: #263b5e;"><sup class="fs-3">$</sup>4.99</h1>
+                                        <h6 class="text-uppercase text-muted">Per Month</h6>
+                                        <div class="mt-4">
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Clip History Unlimited Clips</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Device Count : Unlimited</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span> Smater Scaner : Yes</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Web Access : Yes</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Ads : No</p>
+                                            <p class="py-2 packageFreturesWhite"><span class="text-primary icon me-2" style="color: #69C702 !important;">∎</span>  Analytics : Yes</p>
+                                        </div>
+                                        
+                                        <form action="/subscribe/create-checkout-session" method="POST"> 
+                                            <input type="hidden" name="customer_id" value="<%=details.user.stripe_user_id%>" />
+                                            <input type="hidden" name="price_id" value="<%=pre_key%>" />  
+                                            <button type="submit" class="btn btn-primary mt-4" id="basic_btn">Get Started</button>
+                                        </form>
+                                      
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>          
+<!-- Plan Details Section End-->   
+
+    </div>
+</section>
+
+<script>
+    function loadme(){
+
+        if("<%= details.plan.webPortal %>"=="YES"){
+            document.getElementById('HeadderPanel').style.display='block'; 
+            document.getElementById('ClipUsagedetails').style.display='block'; 
+            document.getElementById('DeviceUsage').style.display='block'; 
+            document.getElementById('lockedpanel').style.display='none'; 
+            document.getElementById('planDetails').style.display='none'; 
+        
+        }else if("<%= details.plan.webPortal %>"=="NO"){
+            document.getElementById('HeadderPanel').style.display='none'; 
+            document.getElementById('ClipUsagedetails').style.display='none'; 
+            document.getElementById('DeviceUsage').style.display='none'; 
+            document.getElementById('lockedpanel').style.display='block';
+            document.getElementById('planDetails').style.display='block';  
+        }
+            
+    } 
+
+</script>
+
+
+<%- include('includes/footer.ejs'); %>
+

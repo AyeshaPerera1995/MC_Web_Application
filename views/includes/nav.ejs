@@ -1,0 +1,182 @@
+</head>
+<style>
+    .navbar-collapse.collapse.in {
+    display: block !important;
+  }
+
+  .sidebar .menu .list a {
+        padding: 15px 5px 15px 5px;
+    }
+</style>
+<body class="theme-green" onload="loadme();">
+<!-- Page Loader -->
+<div class="page-loader-wrapper" style="background-color: rgb(224, 215, 215) !important;">
+    <div class="loader">
+        <div class="m-t-30"><img src="/assets/images/new_logo.png" width="48" height="48" alt="Magic Copy"></div>
+        <p style="color: black;">Please wait...</p>        
+    </div>
+</div>
+<input type="hidden" id="accessToken">
+<div class="overlay_menu">
+    <button class="btn btn-primary btn-icon btn-icon-mini btn-round"><i class="zmdi zmdi-close"></i></button>
+    <div class="container">        
+        <div class="row clearfix">
+            <div class="card">
+                <div class="body">
+                    <div class="input-group m-b-0">                
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card links">
+                <div class="body">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-12">
+                            <h6>About</h6>
+                            <ul class="list-unstyled">
+                                                       
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12">
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Left Sidebar -->
+<aside id="minileftbar" class="minileftbar">
+    <ul class="menu_list">
+        <li>
+            <a href="javascript:void(0);" class="bars"></a>
+            <a class="navbar-brand" href="/"><img src="/images/new_logo.png" alt="Magic Copy"></a>
+        </li>      
+        <li class="power">
+            <!-- <a href="javascript:void(0);" class="js-right-sidebar"><i class="zmdi zmdi-settings zmdi-hc-spin"></i></a>             -->
+            <a href="/auth/logout" class="mega-menu"><i class="zmdi zmdi-power"></i></a>
+        </li>
+    </ul>    
+</aside>
+
+<aside class="right_menu">
+
+    <div id="rightsidebar" class="right-sidebar">
+        <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#setting">Setting</a></li>        
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#activity">Activity</a></li>
+        </ul>
+    </div>
+    <div id="leftsidebar" class="sidebar" style="margin: 0;box-shadow: -12px 0px 20px 0px black;">
+        <div style="position: absolute;top: 0;left: 0;right: 0;bottom: 0;background-color: rgba(0,0,0,0.5);z-index: 2;cursor: pointer;margin: 0px;backdrop-filter: blur(2px);" id="lockedpanel">
+            <div style="position: absolute;">
+            </div>
+        </div>
+        
+        <div class="menu">
+            <div id="overlays"></div>
+            <ul class="list" style="margin-top: 20px;">
+                <li>
+                    <div class="user-info m-b-20">
+                        
+                            <% if(details.plan.webPortal=="NO") {%>
+                                <div class="image" style="z-index: 50;">
+                                    <a class=" waves-effect waves-block" style=" z-index: 100; "><img src="/assets/images/lock.png" alt="User"></a>
+                                </div>
+                                <%
+                                    }else {
+                                    var letter = details.user.name.charAt(0).toUpperCase();    
+                                %>
+                                <div class="image">
+                                    <a style="font-size: 40px;height: 100px;width: 100px;background: white;border-radius: 20%;margin: 0px auto;display: block;border: #68bc04 5px solid;margin-bottom: 15px;color: #68bc04;font-weight: 700;"><%=letter%></a>
+                                </div>
+                            <%}%>
+                                            
+                        <div class="detail">
+                            <h6><%=details.user.name%></h6>
+                            <p class="m-b-0" style="font-size: 13px;"><%=details.user.email%></p>
+                            <!-- <p class="m-b-0" style="font-size: 13px;"><%=accToken%></p> -->
+                            <!-- <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-facebook-box"></i></a>
+                            <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-linkedin-box"></i></a>
+                            <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-instagram"></i></a>
+                            <a href="javascript:void(0);" title="" class=" waves-effect waves-block"><i class="zmdi zmdi-twitter-box"></i></a>                             -->
+                        </div>
+                    </div>
+                </li>
+                <% if(details.plan.webPortal=="YES") {%>
+                <li class="sm_menu_btm"> <a href="/dashboard" class="menu-toggle"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a>                 
+                </li>
+                <div hidden>
+                    <form action="/dashboard" method="POST">
+                        <input type="text" name="DeviceIDx" value="device id">
+                        <input type="submit" id="dashboard_btn">
+                    </form>
+                </div>
+
+                <li class="sm_menu_btm"> <a onclick="getallclips();" class="menu-toggle"><i class="zmdi zmdi-delicious"></i><span>All Clips</span> <span class="badge badge-default float-right"><%=details.clipCountDetails.clipCount%></span></a></li>
+                <div hidden>
+                    <form action="/clips/getAllClips" method="POST">
+                        <input type="text" name="access_token" value="<%=accToken%>">
+                        <input type="text" name="page" value="0">
+                        <input type="submit" id="getallclips_btn">
+                    </form>
+                </div>
+
+                <li class="sm_menu_btm"> <a onclick="getpinclips();" class="menu-toggle"><i class="zmdi zmdi-delicious"></i><span>Favorite Clips</span> <span class="badge badge-default float-right"><%=details.clipCountDetails.pinedClips%></span></a></li>
+                <div hidden>
+                    <form action="/clips/getPinClips" method="POST">
+                        <input type="text" name="access_token" value="<%=accToken%>">
+                        <input type="text" name="page" value="0">
+                        <input type="submit" id="getpinclips_btn">
+                    </form>
+                </div>
+
+                <li class="sm_menu_btm"> <a onclick="getdevices();" class="menu-toggle"><i class="zmdi zmdi-lock"></i><span style="font-size: 14px;">Device Manager</span> <span class="badge badge-default float-right"><%=(details.devicelist.length-1)%></span></a></li>
+                <div hidden>
+                    <form action="/devices/getDevices" method="POST">
+                        <input type="text" name="access_token" value="<%=accToken%>">
+                        <input type="submit" id="getdevices_btn">
+                    </form>
+                </div>
+
+                <li class="sm_menu_btm"> <a onclick="getPayHistory();" class="menu-toggle"><i class="zmdi zmdi-badge-check"></i><span style="font-size: 14px;">Payments and Packages</span></a></li>
+                <div hidden>
+                    <form action="/subscribe/customer-portal" method="POST">
+                        <input type="hidden" name="customer_id" value="<%=details.user.stripe_user_id%>" />
+                        <input type="submit" id="getpayhistory_btn">
+                    </form>
+                </div>
+
+                <!-- <li><a class="menu-toggle waves-effect waves-block"><i class="zmdi zmdi-badge-check"></i><span>Payments and Packages</span></a>
+                    <ul class="ml-menu" style="display: none;">
+                        
+                        <li><a onclick="getPlans();" class="waves-effect waves-block"><span>Upgrade Plan</span></a></li>
+                        <div hidden>
+                            <form action="/subscribe/packages" method="POST">
+                                <input type="text" name="access_token" value="<%=accToken%>">
+                                <input type="submit" id="getplans_btn">
+                            </form>
+                        </div>
+                        
+                        <li><a onclick="getPayHistory();" class="waves-effect waves-block"><span>Payment History</span></a></li>
+                        <div hidden>
+                            <form action="/subscribe/customer-portal" method="POST">
+                                <input type="hidden" name="customer_id" value="<%=details.user.stripe_user_id%>" />
+                                <input type="submit" id="getpayhistory_btn">
+                            </form>
+                        </div>
+
+                    </ul>
+                </li> -->
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</aside>

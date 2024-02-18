@@ -1,0 +1,98 @@
+
+
+<!doctype html>
+<html class="no-js " lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Magic Copy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Magic Copy makes it easy for you to manage all your favorite text and links and share them across any of your devices or online" />
+    <meta name="keywords" content="Universal Clipboard" />
+    <meta content="Magic Copy" name="Magic Copy" />
+<!-- Favicon-->
+    <link rel="shortcut icon" href="/images/new_logo.png" />
+<link rel="stylesheet" href="/assets/plugins/bootstrap/css/bootstrap.min.css">
+
+<!-- Custom Css -->
+<link rel="stylesheet" href="/assets/css/main.css">    
+<link rel="stylesheet" href="/assets/css/color_skins.css">
+
+<!-- Jquery Core Js --> 
+<script src="/assets/bundles/libscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js --> 
+<script src="/assets/bundles/vendorscripts.bundle.js"></script> <!-- Lib Scripts Plugin Js --> 
+
+<script src="/assets/plugins/bootstrap-notify/bootstrap-notify.js"></script> <!-- Bootstrap Notify Plugin Js -->
+
+<script src="/assets/bundles/mainscripts.bundle.js"></script><!-- Custom Js -->
+<script src="/assets/js/pages/ui/notifications.js"></script> <!-- Custom Js -->
+
+
+</head>
+<body class="theme-black" >
+<div class="authentication" style="background-color: white !important;">
+    <div class="container">
+        <div class="col-md-12 content-center">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <div class="company_detail">
+                        <h4 class="logo" style="color: #5aae01; font: 900;"><img src="assets/images/new_logo.png" alt="" > Magic Copy</h4>
+                        <h3 style="color: #5aae01;font-weight: 900;text-transform: uppercase; opacity: 1;letter-spacing: 2px;">A Secure Private<strong> Universal Clipboard </strong></h3>
+                        <p  style="color: #2b2b2b; font: 900;">Magic Copy makes it easy for you to manage all your favorite text and links and share them across any of your devices or online</p>                        
+                        <div class="footer">
+                            <ul  class="social_link list-unstyled"  style="color: #000000; font: 900;">
+                                <li><a href="https://thememakker.com" title="ThemeMakker"><i class="zmdi zmdi-globe"></i></a></li>
+                                <li><a href="https://themeforest.net/user/thememakker" title="Themeforest"><i class="zmdi zmdi-shield-check"></i></a></li>
+                                <li><a href="https://www.linkedin.com/company/thememakker/" title="LinkedIn"><i class="zmdi zmdi-linkedin"></i></a></li>
+                                <li><a href="https://www.facebook.com/thememakkerteam" title="Facebook"><i class="zmdi zmdi-facebook"></i></a></li>
+                                <li><a href="http://twitter.com/thememakker" title="Twitter"><i class="zmdi zmdi-twitter"></i></a></li>
+                                <li><a href="http://plus.google.com/+thememakker" title="Google plus"><i class="zmdi zmdi-google-plus"></i></a></li>
+                                <li><a href="https://www.behance.net/thememakker" title="Behance"><i class="zmdi zmdi-behance"></i></a></li>
+                            </ul>
+                            <hr>
+                            <ul  style="color: #000000; font: 900;">
+                                <li><a href="http://thememakker.com/contact/" target="_blank">Contact Us</a></li>
+                                <li><a href="http://thememakker.com/about/" target="_blank">About Us</a></li>
+                                <li><a href="http://thememakker.com/services/" target="_blank">Services</a></li>
+                                <li><a href="javascript:void(0);">FAQ</a></li>
+                            </ul>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="col-lg-5 col-md-12 offset-lg-1">
+                    <div class="card-plain">
+                        <div class="header">
+                            <h5>Please enter code</h5>
+                        </div>
+                        <%- include ("includes/messages"); %>
+                        <form class="form" action="/auth/verify_code" role="form" method="POST" >
+                            <div class="input-group">
+                                <input type="email" class="form-control" name="email" style="text-align: center;" hidden value="<%=userdata %>">
+                                <input type="text" class="form-control" name="code" style="text-align: center;" required placeholder="*****">
+                                <span class="input-group-addon"><i class="zmdi zmdi-code-setting"></i></span>
+                            </div>
+                            <button class="btn btn-primary btn-round btn-block" type="submit" style="background-color: #5aae01 !important;">Verify</button>                                                         
+                        </form>
+                        <div class="footer">
+                           
+                        </div>     
+                        <a onclick="getresendcode();" class="link" style="color: #8a8a8a;font-weight: 500;font-size: 12px; cursor: pointer;">RESEND CODE</a>                 
+                        <div hidden>
+                            <form action="/auth/resend_code" method="POST">
+                                <input type="text" name="email" value="<%=userdata %>">
+                                <input type="submit" id="getresendcode_btn">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     function getresendcode(){
+        document.getElementById('getresendcode_btn').click();
+    }
+</script>
+</body>
+</html>

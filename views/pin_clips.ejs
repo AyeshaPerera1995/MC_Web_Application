@@ -1,0 +1,648 @@
+<%- include('includes/header.ejs'); %>
+
+<style>
+    .deleteclipIcon{
+        padding-left: 15px;
+        margin-top: 22px;
+        background-repeat: no-repeat !important;
+        background: url('/images/trash1.png');
+    }
+    .deleteclipIcon:hover{
+        padding-left: 15px;
+        margin-top: 22px;        
+        background-repeat:no-repeat  !important;
+        background: url('/images/trash.png');
+    }
+
+    .pinclipIcon{
+        margin:22px 12px 0 0; width:15px;
+        background-repeat: no-repeat !important;
+        background: url('/images/pin2.png');
+    }
+    .pinclipIcon:hover{
+        margin:22px 12px 0 0; width:15px;
+        background-repeat:no-repeat  !important;
+        background: url('/images/pin2_white.png');
+    }
+
+    .clipcard{
+        box-shadow: 0 2px 5px 0 rgb(0 0 0 / 9%);
+    }
+
+    .clipcard:hover{
+        box-shadow: 0 2px 8px 0 rgb(0 0 0 / 20%);
+        border-radius: .55rem;
+        cursor: pointer;
+        z-index: 1000;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .page-link:focus {
+        z-index: 2 !important;
+        outline: 0 !important;
+        box-shadow: 0 0 0 0.2rem rgb(104 188 4 / 32%) !important;
+    }
+
+    /* pagination styles  */
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+li {
+  background: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  border: none;
+  cursor: pointer;
+}
+
+.page-item {
+  color: rgb(61, 61, 61);
+  cursor: pointer;
+  border-radius: 60px;
+  padding: 5px;
+}
+
+.page-item:hover {
+    box-shadow: 0 2px 8px 0 rgb(0 0 0 / 20%);
+    border-radius: 60px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.2s ease-in-out;
+}
+
+.page-item:first-of-type {
+  margin-left: 0;
+}
+
+.page-item:last-of-type {
+  margin-right: 0;
+}
+
+.page-item:not([class$="-page"]) {
+  width: 35px;
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.page-item[class*="-page"] {
+  color: rgb(88, 86, 86);
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 60px;
+  padding: 5px 13px 5px 13px;
+
+}
+
+.page-item[class*="-page"]:hover {
+  font-weight: bold;
+  padding: 5px 13px 5px 13px;
+  box-shadow: 0 2px 8px 0 rgb(0 0 0 / 30%);
+  border-radius: 60px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.2s ease-in-out;
+  
+
+}
+
+.page-item.active {
+  background: #68bc04;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 60px;
+  padding: 5px;
+}
+
+.page-item[disabled] {
+  opacity: 0.3;
+}
+
+/* pagination styles  */
+
+</style>
+
+
+<%- include('includes/nav.ejs'); %>
+
+
+<section class="content inbox" style="z-index: 3;">
+    <div class="container-fluid">
+        <div id="HeadderPanel">
+            <div class="block-header" >
+            <div class="row clearfix">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <h2>Clips</h2>
+                    <ul class="breadcrumb padding-0">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="zmdi zmdi-home"></i></a></li>
+                        <li class="breadcrumb-item active">Favourite Clips</li>
+                    </ul>
+                </div>            
+                <!-- <div class="col-lg-7 col-md-7 col-sm-12">
+                    <div class="input-group m-b-0">                
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-search"></i>
+                        </span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+
+        </div>    
+            
+    <!-- Clip Usage Section Begin-->    
+        <div id="AllClips"  >
+            <div class="row clearfix" >
+                <div class="col-md-12 col-lg-12">
+                    <div class="card">
+                        <div class="">
+                            <ul class="list-unstyled mail_list" id="clipholder">
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    <!-- Clip Usage Section End--> 
+
+    <!-- pagination here  -->
+    
+    </div>
+
+</section>
+
+<script src="/assets/bundles/libscripts.bundle.js"></script> 
+<script src="/assets/bundles/vendorscripts.bundle.js"></script> 
+<script src="/assets/bundles/mainscripts.bundle.js"></script>
+
+<script>
+    
+    function loadme(){
+        getPageCount();
+        if("<%= details.plan.webPortal %>"=="YES"){
+           document.getElementById('HeadderPanel').style.display='block'; 
+           document.getElementById('lockedpanel').style.display='none';        
+        }else{
+           document.getElementById('HeadderPanel').style.display='none'; 
+            document.getElementById('lockedpanel').style.display='block'; 
+        }
+    }
+
+    function clipCopy(id){    
+        var r = document.createRange();
+        r.selectNode(document.getElementById(id));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(r);
+        document.execCommand('copy');
+        window.getSelection().removeAllRanges();
+       
+        showNotification('bg-light-green', 'Clip Copied Successfully ', 'bottom', 'right', 'Enter','Exit');        
+    }
+
+    function deleteClip(id, pagenumber){ 
+        // var id = '5367';
+        console.log(id);
+        var bodydata = { "id": id };
+        $.ajax({        
+        // delete clips 
+        url: 'http://nenotechnologies-001-site22.etempurl.com/api/clip/Deleteclip?',
+        type: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            AccessToken: '<%= accToken %>'
+        }, 
+        data:JSON.stringify(bodydata),
+        success: function(res) {
+                console.log(res);
+                if (res.response.Status == 'Success') {
+                    showNotification('bg-light-green', 'Clip Deleted Successfully ', 'bottom', 'right', 'Enter','Exit');
+                    loadClips(pagenumber);
+                }else{
+                    showNotification('alert-danger', 'Error! Please try again.', 'bottom', 'right', 'Enter','Exit');
+                }
+        }
+        });            
+    }
+
+    function pinClip(id, pagenumber){    
+        $.ajax({
+        
+        // Get clip status 
+        url: "http://nenotechnologies-001-site22.etempurl.com/api/clip/getsingleclip?clip_id="+id,
+        type: 'GET',
+        headers: {
+            AccessToken: '<%= accToken %>'
+        }, 
+        success: function(res) {
+                console.log(res.pin_status);
+                var status = 1;
+                if (res.pin_status) {
+                   var status = 0; 
+                }
+                // change status in clip 
+                $.ajax({
+                url: "http://nenotechnologies-001-site22.etempurl.com/api/clip/Pinclip?clip_id="+id+"&status="+status,
+                type: 'POST',
+                headers: {
+                    AccessToken: '<%= accToken %>'
+                }, 
+                success: function(res) {
+                    console.log(res.Status);
+                    if (res.Status == 'Success') {
+                        showNotification('bg-light-green', 'Clip Updated Successfully ', 'bottom', 'right', 'Enter','Exit');
+                        loadClips(pagenumber);
+                    }else{
+                        showNotification('alert-danger', 'Error! Please try again.', 'bottom', 'right', 'Enter','Exit');
+                    }
+                    
+                }
+                });
+        }
+        });        
+    }
+
+// Set Pagination Start
+const pageNumbers = (total, max, current) => {
+const half = Math.floor(max / 2);
+let to = max;
+  
+  if(current + half >= total) {
+    to = total;
+  } else if(current > half) {
+    to = current + half ;
+  }
+  
+  let from = to - max;
+  return Array.from({length: max}, (_, i) => (i + 1) + from);
+}
+console.log(
+    pageNumbers(11,5,1)
+)
+
+function PaginationButton(totalPages, maxPagesVisible = 5, currentPage = 1) {
+  let pages = pageNumbers(totalPages, maxPagesVisible, currentPage);
+  console.log(pages);
+  let currentPageBtn = null;
+  const buttons = new Map();
+  const disabled = {
+    prev: () => currentPage === 1,
+    next: () => currentPage === totalPages
+  }
+  const frag = document.createDocumentFragment();
+  const paginationButtonContainer = document.createElement('ul');
+  paginationButtonContainer.className = 'pagination pagination-primary float-right pagination-buttons';
+  paginationButtonContainer.style = 'margin-right:30px';
+
+//   default page loading 
+  paginationButtonContainer.value = currentPage;
+  loadClips(currentPage-1);
+  
+  const createAndSetupButton = (label = '', cls = '', disabled = false, handleClick) => {
+    const listElement = document.createElement('li');
+    listElement.className = `page-item ${cls}`;
+    listElement.textContent = label;
+    listElement.style = "text-align:center;"
+    
+    listElement.addEventListener('click', e => {
+      handleClick(e);
+      this.update();
+      paginationButtonContainer.value = currentPage;
+      loadClips(currentPage-1);
+      paginationButtonContainer.dispatchEvent(new Event('change'));
+    });
+
+    return listElement;
+  }
+  
+  const onPageButtonClick = e => currentPage = Number(e.currentTarget.textContent);
+  
+  const onPageButtonUpdate = index => (btn) => {
+    btn.textContent = pages[index];
+    
+    if(pages[index] === currentPage) {
+      currentPageBtn.classList.remove('active');
+      btn.classList.add('active');
+      currentPageBtn = btn;
+      currentPageBtn.focus();
+    }
+  };
+  
+  buttons.set(
+    createAndSetupButton('<', 'prev-page', disabled.prev(), () => currentPage -= 1),
+    (btn) => btn.disabled = disabled.prev()
+  )
+  
+  pages.map((pageNumber, index) => {
+    const isCurrentPage = currentPage === pageNumber;
+    const button = createAndSetupButton(
+      pageNumber, isCurrentPage ? 'active' : '', false, onPageButtonClick
+    );
+    
+    if(isCurrentPage) {
+      currentPageBtn = button;
+    }
+    
+    buttons.set(button, onPageButtonUpdate(index));
+  });
+  
+  buttons.set(
+    createAndSetupButton('>', 'next-page', disabled.next(), () => currentPage += 1),
+    (btn) => btn.disabled = disabled.next()
+  )
+  
+  buttons.forEach((_, btn) => frag.appendChild(btn));
+  paginationButtonContainer.appendChild(frag);
+  
+  this.render = (container = document.body) => {
+    container.appendChild(paginationButtonContainer);
+  }
+  
+  this.update = (newPageNumber = currentPage) => {
+    currentPage = newPageNumber;
+    pages = pageNumbers(totalPages, maxPagesVisible, currentPage);
+    buttons.forEach((updateButton, btn) => updateButton(btn));
+  }
+  
+  this.onChange = (handler) => {
+    paginationButtonContainer.addEventListener('change', handler);
+  }
+}
+
+
+
+// Set Pagination End
+
+function getPageCount(){
+    var pc = '';
+    var default_page_count = "<%= details.plan.clipCount %>"/10;
+    var page_count = Math.ceil("<%= details.clipCountDetails.pinedClips %>"/10);
+    console.log('default_page_count '+default_page_count);
+    console.log('page_count '+page_count);
+    if (default_page_count <= page_count) {
+        const paginationButtons = new PaginationButton(default_page_count, 5);
+        paginationButtons.render();
+    }else{
+        if ("<%= details.clipCountDetails.pinedClips %>" <= 40) {
+            const paginationButtons = new PaginationButton(page_count, page_count);
+            paginationButtons.render();  
+        }else{
+            const paginationButtons = new PaginationButton(page_count, 5);
+            paginationButtons.render();
+        }
+    }
+    
+}
+
+
+    function loadClips(pagenumber){
+
+        var default_page_count = "<%= details.plan.clipCount %>"/10;
+        var cliptext='';
+
+        // check if the page number is exceed default page count
+        if ((pagenumber+1) > default_page_count) {
+            // console.log('do not load data');
+
+            cliptext= " "+ 
+                                ''+
+'                                <div class="media-body" style=" margin-top: 50px; margin-left: -5px; text-align:center;">'+ 
+'                               <img src="/images/no_data.png" alt="No Data" width="250" height="250">'+
+'                                <br><br><span style="color:#a5a8ad;">No Data Available.</span>'+
+'                                </div>'+ 
+'                                ';
+
+        document.getElementById('clipholder').innerHTML=cliptext;
+        // $('#msgModal').modal('show');
+
+        } else {
+            // console.log('default_page_count '+default_page_count);
+            // console.log(pagenumber+1);
+
+        $.ajax({
+        // url: "https://apimc.azurewebsites.net/api/clip/getpinclips?page="+pagenumber,
+        url: "http://nenotechnologies-001-site22.etempurl.com/api/clip/getpinclips?page="+pagenumber,
+        type: 'GET',
+        headers: {
+            AccessToken: '<%= accToken %>'
+        }, 
+            success: function(res) {
+                console.log(res);
+                var clipObj = res.clips;
+
+                var next_page = false;
+                if (clipObj.length == 0) {
+                   console.log('<%=details.clipCountDetails.pinedClips%>'); 
+                   next_page = true;                  
+                }
+
+                if ('<%=details.clipCountDetails.pinedClips%>' != 0 && next_page) {
+                    cliptext= " "+ 
+                                ''+
+'                                <div class="media-body" style=" margin-top: 50px; margin-left: -5px; text-align:center;">'+ 
+'                               <img src="/images/no_data.png" alt="No Data" width="250" height="250">'+
+'                                <br><br><span style="color:#a5a8ad;">No Data Available.</span>'+
+'                                </div>'+ 
+'                                ';
+                } else if ('<%=details.clipCountDetails.pinedClips%>' == 0) {
+                    cliptext= " "+ 
+                                ''+
+'                                <div class="media-body" style=" margin-top: 50px; margin-left: -5px; text-align:center;">'+ 
+'                               <img src="/images/no_data.png" alt="No Data" width="250" height="250">'+
+'                                <br><br><span style="color:#a5a8ad;">You haven\'t pinned anything yet.</span>'+
+'                                </div>'+ 
+'                                ';
+                }
+
+                clipObj.forEach(clip => {
+
+                    const copiedDate = new Date(clip.dateandtime);
+                    const options = {
+                        year: "numeric",
+                        month:"short",
+                        day:"numeric"
+                    };
+                                        
+                    var fav='<a class="favourite col-amber" style="width:20px; height:28px"></a>';
+
+                    if(clip.pin_status){
+                        fav='<a class="favourite col-amber"><img src="/images/Favicon.png" alt="Magic Copy"></a>';
+
+                    }
+                    
+                    var ids= clip.id+""; 
+                    var id = ids.split(' ').join('');     
+                    
+                    var encodedString = clip.content.replace(/["'+<!-->]/g, "");
+
+                    cliptext= cliptext+ " "+ 
+                                '<li class="media clipcard" style="margin-left: 10px; margin-right: 10px; border: 1px solid #eceaea; border-radius: 5px;margin-bottom: 5px;margin-top: 10px;background: #fff;">'+
+'                                    <div class="controls" style="margin-top: -17px; z-index: 1000; margin-left: -25px;">'+
+                                        fav+
+'                                    </div>'+
+'                                    <div class="media-body" style=" margin-top: 0px; margin-left: -5px; ">'+
+'                                        <div class="media-heading">'+
+'                                            <a onclick="clipCopy('+id+');" href="#"  style="font-weight: 800;">'+encodedString.substring(0, 45) +'</a>'+
+'                                            <span class="badge badge-success">'+clip.os+'</span>'+
+'                                            <small onclick="deleteClip('+id+','+pagenumber+');" class="float-right deleteclipIcon"><img ></small>'+
+'                                            <small onclick="pinClip('+id+','+pagenumber+');" class="float-right pinclipIcon"><img ></small>'+
+'                                            <small class="float-right editclipIcon"><a href="#editModal" data-toggle="modal" data-target="#editModal" data-id="'+id+'" data-page-number="'+pagenumber+'" class="editModal"><img src="/images/edit.png" alt="User" style="margin:22px 10px 0 0; background-repeat: no-repeat !important;"></a></small>'+
+'                                            <small class="text-muted float-right" style="margin-right: -60px;" >'+copiedDate.toLocaleDateString('en-US',options)+'</small>'+
+'                                        </div>'+
+'                                        <textarea onclick="clipCopy('+id+');" readonly rows="1" style="border:none; resize: none; cursor:pointer; background-color: transparent; outline: none;" class="msg" id="'+id+'">'+clip.content+'</textarea>'+                                       
+'                                    </div>'+
+'                                </li>';
+                });
+            
+                document.getElementById('clipholder').innerHTML=cliptext;
+            }
+        });
+    }
+}
+
+    // Get Edit Modal
+    $(document).on("click", ".editModal", function () {
+     var clipId = $(this).data('id');
+     var pagenumber = $(this).data('page-number');
+
+     // Get single clip data 
+    $.ajax({
+        url: "http://nenotechnologies-001-site22.etempurl.com/api/clip/getsingleclip?clip_id="+clipId,
+        type: 'GET',
+        headers: {
+            AccessToken: '<%= accToken %>'
+        }, 
+        success: function(res) {       
+            const copied_date = new Date(res.dateandtime);
+            const options = {
+                year: "numeric",
+                month:"short",
+                day:"numeric"
+            };
+        
+            $('#mheader').html('<h4 class="title" id="defaultModalLabel">Update Clip</h4>'+
+            '<p style="text-align: right;"><small style="text-align: right; font-size: 11px; color: rgb(164, 164, 167); padding: 0; margin: 0;">'+copied_date.toLocaleDateString('en-US',options)+'</small>'+ 
+            '<br><small style="text-align: right; font-size: 12px; color: #68bc04; padding: 0; margin: 0;">Copied Via '+res.os+'</small></p>');
+
+            $('#mbody').html(
+            '<div class="media clipcard" style="padding: 10px; border: 1px solid #eceaea; border-radius: 8px;">'+
+            ' <div class="controls" style="margin-top: -19px; z-index: 1000;">'+
+            '<a class="favourite col-amber"><img id="pin_image" src="/images/N-Fav.png" width="30px" alt="Magic Copy"></a>'+
+            '</div>'+
+            '<input type="hidden" id="id" value="'+res.id+'">'+
+            '<input type="hidden" id="pn" value="'+pagenumber+'">'+
+            '<textarea class="form-control" style="display:none;" id="old_text">'+res.content+'</textarea>'+
+            '<textarea class="form-control" cols="100" rows="10" id="new_text" onkeyup="changeButtons(this);">'+res.content+'</textarea>'+
+            '</div>'
+            );
+
+            $('#mbuttons').html('<small onclick="pinClip('+res.id+','+pagenumber+');" data-dismiss="modal" class="float-right" style="cursor: pointer;"><img src="/images/pin_edit.png" width="23px;"></small>'+ 
+            '<small onclick="deleteClip('+res.id+','+pagenumber+');" data-dismiss="modal" class="float-right" style="cursor: pointer;"><img src="/images/bin.png" width="23px;"></small>'+ 
+            '<small onclick="clipCopy('+res.id+');" class="float-right" style="cursor: pointer;"><img src="/images/copy.png" width="23px;"></small>');
+
+            if (res.pin_status) {
+                $("#pin_image").attr("src","/images/Favicon.png");
+            } else {
+                $("#pin_image").attr("src","/images/N-Fav.png");
+            }
+               
+        }
+    }); 
+
+
+    });
+
+    function changeButtons(element){
+        var id =$('#id').val();
+        var pn = $('#pn').val();
+        var old_text = $('#old_text').val();
+        var new_text = element.value;
+        // console.log(id); console.log(pn); console.log(old_text); console.log(element.value);
+        // console.log('-'+new_text+'-');
+        // console.log('-'+old_text+'-');
+        if (new_text == old_text) {
+            console.log('no change');
+            $('#mbuttons').html('<small onclick="pinClip('+id+','+pn+');" data-dismiss="modal" class="float-right" style="cursor: pointer;"><img src="/images/pin_edit.png" width="23px;"></small>'+ 
+            '<small onclick="deleteClip('+id+','+pn+');" data-dismiss="modal" class="float-right" style="cursor: pointer;"><img src="/images/bin.png" width="23px;"></small>'+ 
+            '<small onclick="clipCopy('+id+');" class="float-right" style="cursor: pointer;"><img src="/images/copy.png" width="23px;"></small>');
+        }else{
+            console.log('haveeee');
+            $('#mbuttons').html('<button type="button" onclick="editClip('+id+','+pn+');" data-dismiss="modal" class="btn btn-primary btn-round waves-effect" style="width: 30px; height: 30px; padding: 5px;"> ✔ </button>'+
+            '<button type="button" class="btn btn-danger btn-round waves-effect" data-dismiss="modal" style="width: 30px; height: 30px; padding: 5px;">✗</button>');
+        }
+    }
+
+    // Edit Clip 
+    function editClip(id,pagenumber){
+        var new_content = $('#new_text').val();
+
+        var bodydata = {
+                "id": id,
+                "contentType": "TEXT",
+                "content": new_content,
+                "userGroup": "NA"
+        };
+
+        $.ajax({        
+        url: 'http://nenotechnologies-001-site22.etempurl.com/api/clip/updateclip',
+        type: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            AccessToken: '<%= accToken %>'
+        }, 
+        data:JSON.stringify(bodydata),
+        success: function(res) {
+                console.log(res);
+                if (res.response.Status == 'Success') {
+                    showNotification('bg-light-green', 'Clip Updated Successfully ', 'bottom', 'right', 'Enter','Exit');
+                    loadClips(pagenumber);
+
+                }else{
+                    showNotification('alert-danger', 'Error! Please try again.', 'bottom', 'right', 'Enter','Exit');
+                }
+        }
+        }); 
+
+    }
+
+</script>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" id="mheader">                
+            </div>
+            <div class="modal-body" id="mbody">
+            </div>
+            <div class="modal-footer" id="mbuttons">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Popup Message -->
+<!-- <div class="modal fade" id="msgModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">                
+            </div>
+            <div class="modal-body">
+                <div class="media clipcard" style="padding: 10px; border: 1px solid #eceaea; border-radius: 8px;">
+                <p>You have reached the maximum clip count. Upgrade your plan and discover new features with Magic Copy !</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<%- include('includes/footer.ejs'); %>
